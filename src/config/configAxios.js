@@ -1,7 +1,7 @@
 // import Vue from 'vue';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://virtualmate-backend.herokuapp.com/' ||'http://localhost:3333';
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
 const userToken = localStorage.getItem("token");
 axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
@@ -11,7 +11,7 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
 //   });
 
 export default {
-    apiURL: 'https://virtualmate-backend.herokuapp.com/' || 'http://localhost:3333',
+    apiURL: process.env.VUE_APP_API_URL,
 }
 
 
