@@ -163,27 +163,27 @@ export default {
     async s_like(id) {
       console.log(`Deu super like no id ${id}`);
       const response_super_like = await axios.post(
-        `${config.apiURL}users/${id}/likes`
+        `${config.apiURL}/users/${id}/likes`
       );
       return this.initMatche();
     },
     async like(id) {
       console.log(`Deu like no id ${id}`);
       const response_like = await axios.post(
-        `${config.apiURL}users/${id}/likes`
+        `${config.apiURL}/users/${id}/likes`
       );
       return this.initMatche();
     },
     async dislike(id) {
       console.log(`Deu dislike no id ${id}`);
       const response_dislike = await axios.post(
-        `${config.apiURL}users/${id}/dislikes`
+        `${config.apiURL}/users/${id}/dislikes`
       );
       return this.initMatche();
     },
 
     async initMatche() {
-      const response_user = await axios.get(`${config.apiURL}users`);
+      const response_user = await axios.get(`${config.apiURL}/users`);
       console.log(response_user.data);
 
       if (!response_user) {
