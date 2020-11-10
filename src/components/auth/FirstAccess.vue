@@ -277,7 +277,7 @@ export default {
         const formData = new FormData(); /**Este formData serve para validar o envio de arquivos. */
         formData.append("file", this.selectedFile);
         const response_file = await axios.post(`/files`, formData);
-        // console.log(response_file)
+        console.log(response_file)
 
         id_avatar = response_file.data._id;
 
@@ -292,6 +292,7 @@ export default {
 
       /**Insert LOCATION */
       const response_address = await axios.post(`/address`, this.location);
+      var id_address = response_address.data.location._id;
 
       if (!response_address) {
         this.errorInsert.name = "Address";
@@ -303,8 +304,8 @@ export default {
 
       /**Update USER */
       const response_user = await axios.put(`/users`, {
-        id_avatar: id_avatar,
-        id_address: response_address.data.location._id,
+        id_avatar: id_avatar || null,
+        id_address: id_address,
         status: this.status,
         birthday: this.date,
         gender: this.gender,
@@ -312,6 +313,14 @@ export default {
       });
 
       console.log(response_user.data);
+
+      if (!response_user) {
+        this.errorInsert.name = "User";
+        this.errorInsert.type = "Insert";
+        this.errorInsert.value = true;
+        console.error(response_user);
+        return false;
+      }
 
       const {
         provider,
@@ -339,22 +348,18 @@ export default {
       });
 
       // ADDRESS  gettingAddressUser
-      const {_id:idAddress, country, state, city} = response_user.data.id_address;
-      const address = {idAddress, country, state, city}
-      this.$store.commit("gettingAddressUser", address);
+      if(id_address){
+        const {_id:idAddress, country, state, city} = response_user.data.id_address;
+        const address = {idAddress, country, state, city}
+        this.$store.commit("gettingAddressUser", address);
+      }
 
       // AVATAR   gettingAvatarUser
-      const {_id:idAvatar, path, url} = response_user.data.id_avatar;
-      const avatar = {idAvatar, path, url};
-      this.$store.commit("gettingAvatarUser", avatar);
-
-      if (!response_user) {
-        this.errorInsert.name = "User";
-        this.errorInsert.type = "Insert";
-        this.errorInsert.value = true;
-        console.error(response_user);
-        return false;
-      }
+      if(id_avatar){
+        const {_id:idAvatar, url} = response_user.data.id_avatar;
+        const avatar = {idAvatar, url};
+        this.$store.commit("gettingAvatarUser", avatar);
+      } 
       
       this.$router.push("/dashboard");
     },

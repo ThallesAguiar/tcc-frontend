@@ -62,8 +62,8 @@ const actions = {
   signIn(context, payload) {
     context.commit("loginUser", payload);
   },
-  loginDataAvatar(context, { idAvatar, path, url }) {
-    context.commit("gettingAvatarUser", { idAvatar, path, url });
+  loginDataAvatar(context, { idAvatar, url }) {
+    context.commit("gettingAvatarUser", { idAvatar, url });
   },
   loginDataAddress(context, { country, state, city }) {
     context.commit("gettingAddressUser", { country, state, city });
@@ -89,8 +89,8 @@ const mutations = {
 
     if (!payload) return state.avatar = null;
 
-    const { idAvatar, path, url } = payload;
-    const avatar = { idAvatar, path, url };
+    const { idAvatar, url } = payload;
+    const avatar = { idAvatar, url };
     state.avatar = avatar;
     localStorage.setItem("avatar", JSON.stringify(avatar));
   },

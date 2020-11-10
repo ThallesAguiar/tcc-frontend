@@ -1,8 +1,11 @@
 <template>
   <div>
     <v-app-bar app clipped-left color="teal" dark>
-      <v-avatar size="50" class="hidden-sm-and-down">
+      <v-avatar v-if="avatarUser" size="50" class="hidden-sm-and-down">
         <img v-if="this.$route.path !== '/dashboard'" :src="avatarUser.url" @click="overlay = !overlay" />
+      </v-avatar>
+      <v-avatar v-else size="50" class="hidden-sm-and-down">
+        <img v-if="this.$route.path !== '/dashboard'" src="https://image.winudf.com/v2/image1/YnIuY29tLmFwcHN3cy5lcnZhbWF0ZV9zY3JlZW5fMV8xNTYwNjk2NzMxXzAzNw/screen-1.jpg?fakeurl=1&type=.jpg" @click="overlay = !overlay" />
       </v-avatar>
 
       <!-- <v-icon class="mx-4" large>mdi-food-variant</v-icon> -->

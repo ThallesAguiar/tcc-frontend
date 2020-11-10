@@ -18,8 +18,13 @@
         </v-btn>
       </v-bottom-navigation>
       <v-list>
-        <v-avatar size="250" class="imagePreviewWrapper">
-          <img :src="avatarUser ? avatarUser.url : image" />
+        <v-avatar v-if="avatarUser" size="250" class="imagePreviewWrapper">
+          <img :src="avatarUser.url" />
+        </v-avatar>
+        <v-avatar v-else size="250" class="imagePreviewWrapper">
+          <img
+            src="https://image.winudf.com/v2/image1/YnIuY29tLmFwcHN3cy5lcnZhbWF0ZV9zY3JlZW5fMV8xNTYwNjk2NzMxXzAzNw/screen-1.jpg?fakeurl=1&type=.jpg"
+          />
         </v-avatar>
         <v-list-item>
           <v-list-item-content>
@@ -28,6 +33,7 @@
               user.status
             }}</v-list-item-subtitle>
             <v-list-item-subtitle
+              v-if="address"
               :title="[
                 address.city ? address.city : '',
                 address.state ? address.state : ' - ',
@@ -78,7 +84,7 @@ export default {
     logout() {
       this.$store.dispatch("signOut");
     },
-    
+
     // eventBus de quando concluir o update, o dialog recebe false para fechar o modal.
     dialogFalseMethod() {
       this.dialog = false;
@@ -86,13 +92,15 @@ export default {
   },
   computed: {
     avatarUser() {
-      return this.$store.getters.getAvatar;
+      if (this.$store.getters.getAvatar) return this.$store.getters.getAvatar;
+      else return null;
     },
     user() {
       return this.$store.getters.getUser;
     },
     address() {
-      return this.$store.getters.getAddress;
+      if(this.$store.getters.getAddress) return this.$store.getters.getAddress;
+      else return null;
     },
   },
 };

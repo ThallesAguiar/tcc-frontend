@@ -9,14 +9,20 @@
       v-on="$listeners"
     >
       <v-list>
-        <v-avatar size="210" class="imagePreviewWrapper">
-          <img :src="avatarUser ? avatarUser.url : image" />
+        <v-avatar v-if="avatarUser" size="210" class="imagePreviewWrapper">
+          <img :src="avatarUser.url" />
+        </v-avatar>
+        <v-avatar v-else size="210" class="imagePreviewWrapper">
+          <img
+            src="https://image.winudf.com/v2/image1/YnIuY29tLmFwcHN3cy5lcnZhbWF0ZV9zY3JlZW5fMV8xNTYwNjk2NzMxXzAzNw/screen-1.jpg?fakeurl=1&type=.jpg"
+          />
         </v-avatar>
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="title">{{ user.name }}</v-list-item-title>
             <v-list-item-subtitle>{{ user.status }}</v-list-item-subtitle>
             <v-list-item-subtitle
+              v-if="address"
               :title="[
                 address.city ? address.city : '',
                 address.state ? address.state : ' - ',
@@ -101,8 +107,6 @@ export default {
   data: () => ({
     activeBtn: 0,
     dialog: false,
-    image:
-      "https://image.winudf.com/v2/image1/YnIuY29tLmFwcHN3cy5lcnZhbWF0ZV9zY3JlZW5fMV8xNTYwNjk2NzMxXzAzNw/screen-1.jpg?fakeurl=1&type=.jpg",
   }),
 
   methods: {
@@ -116,7 +120,8 @@ export default {
 
   computed: {
     avatarUser() {
-      return this.$store.getters.getAvatar;
+      if (this.$store.getters.getAvatar) return this.$store.getters.getAvatar;
+      else return null;
     },
     user() {
       return this.$store.getters.getUser;
